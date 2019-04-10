@@ -1,5 +1,4 @@
-# sensory_gating_laura
-Laura RV's sensory gating experiments
+# Laura RV's emotional sensory gating experiments
 
 Task: listen to the sounds. If the sound is a beep, do nothing. If the sound is a click, press the space bar.
 
