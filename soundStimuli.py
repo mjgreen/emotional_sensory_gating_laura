@@ -21,6 +21,8 @@ print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 mybeep = sound.Sound('beep_20ms.wav', volume=0.4)
 myclick = sound.Sound('click_20ms.wav', volume=1.0)
 
+core.wait(3)
+
 mybeep.play()
 core.wait(.25)
 

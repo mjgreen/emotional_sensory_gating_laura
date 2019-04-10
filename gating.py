@@ -10,7 +10,7 @@ prefs.general['audioLib'] = ['sounddevice']  # 'pyo', 'pygame'
 from psychopy import sound
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
-os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
+#os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
 
 # offer as this session's participant number the last participant's number plus 1
 os.path.exists("results") or os.makedirs("results")
@@ -84,9 +84,11 @@ writer = pd.ExcelWriter(os.path.join(results_directory, "P" + str(participant_nu
 temp.to_excel(writer, str(participant_number), index=False, columns=['participant_id', 'session_timestamp', 'unique_id', 'block_number', 'trial_number', 'mood_level', 'sound_type'])
 writer.save()
 
+win = visual.Window()
+
 # load the sounds, with relative volumes
-beep = sound.Sound('beep_20ms', volume=0.4)
-click = sound.Sound('click_20ms', volume=1.0)
+beep = sound.Sound('beep_20ms.wav')
+click = sound.Sound('click_20ms.wav')
 
 # trial sequence
 for bk in range(1, n_blocks+1):
@@ -108,7 +110,11 @@ for bk in range(1, n_blocks+1):
         elif sound_type == 'click':
             click.play()
         # (E) silence for random between 5 seconds and 8 seconds
-        # random.randrange([start], stop[, step])
-        core.wait(secs=random.randrange(5.0, 8.0, 1))
-        core.quit()
+        core.wait(secs=random.uniform(5.0, 8.0))
+        k = event.getKeys(keyList='escape')
+        if k:
+            print('quitting')
+            core.quit()
+        else:
+            pass
 
