@@ -3,7 +3,13 @@ import datetime
 import random
 import shutil
 import pandas as pd
-from psychopy import visual, core, event, gui, parallel
+from psychopy import visual, core, event, gui, parallel, logging, prefs
+
+logging.console.setLevel(logging.DEBUG)  # get messages about the sound lib as it loads
+
+from psychopy import sound, core
+
+print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
 os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
 
@@ -76,3 +82,7 @@ print(temp.to_string(header=True, index=False, index_names=False, col_space=13, 
 writer = pd.ExcelWriter(os.path.join(results_directory, "P" + str(participant_number).zfill(3) + "_trials.xlsx"), engine='xlsxwriter')
 temp.to_excel(writer, str(participant_number), index=False, columns=['participant_id', 'session_timestamp', 'unique_id', 'block_number', 'trial_number', 'mood_level', 'sound_type'])
 writer.save()
+
+
+tada = sound.Sound('click.wav')
+tada.play()
