@@ -18,14 +18,14 @@ prefs.general['audioLib'] = ['sounddevice'] # 'pyo', 'pygame'
 from psychopy import sound
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
-mybeep = sound.Sound('beep_20ms.wav')
-myclick = sound.Sound('click_20ms.wav')
+mybeep = sound.Sound('beep_20ms.wav', volume=0.4)
+myclick = sound.Sound('click_20ms.wav', volume=1.0)
 
 mybeep.play()
-core.wait(2)
+core.wait(.25)
 
 myclick.play()
-core.wait(1)
+core.wait(.25)
 
 print('finished')
 core.quit()

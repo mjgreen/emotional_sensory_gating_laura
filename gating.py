@@ -2,13 +2,12 @@ import os
 import datetime
 import random
 import shutil
+import sys
 import pandas as pd
 from psychopy import visual, core, event, gui, parallel, logging, prefs
-
 logging.console.setLevel(logging.DEBUG)  # get messages about the sound lib as it loads
-
-from psychopy import sound, core
-
+prefs.general['audioLib'] = ['sounddevice']  # 'pyo', 'pygame'
+from psychopy import sound
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
 os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
@@ -51,9 +50,9 @@ os.path.exists(results_directory) or os.makedirs(results_directory)
 # One of the blocks should have 5 click trials (out of 80) and the other should have 4 click trials (out of 80),
 # but we don't want to systematically have angry with 5 and neutral with 4 or the other way around,
 # so flip a coin to decide which block gets 4 clicks and which gets 5 clicks
-sound_list_4_clicks = ['click.wav' for sound in range(4)] + ['beep.wav' for sound in range(76)]
+sound_list_4_clicks = ['click' for sound in range(4)] + ['beep' for sound in range(76)]
 random.shuffle(sound_list_4_clicks)
-sound_list_5_clicks = ['click.wav' for sound in range(5)] + ['beep.wav' for sound in range(75)]
+sound_list_5_clicks = ['click' for sound in range(5)] + ['beep' for sound in range(75)]
 random.shuffle(sound_list_5_clicks)
 coin_flip = random.sample(['heads', 'tails'], 1)[0]
 sound_list = sound_list_4_clicks + sound_list_5_clicks if coin_flip == 'heads' else sound_list_5_clicks + sound_list_4_clicks  # sound_list has length 160
@@ -75,14 +74,41 @@ for bk in range(1, n_blocks + 1):
             'sound_type': sound_list[instance-1]
         }
 
+#print(trial_dict[0])  # keyerror
+
 # write trial_dict to excel
 temp = pd.DataFrame.from_dict(trial_dict, orient='columns')
 temp = temp.transpose()
-print(temp.to_string(header=True, index=False, index_names=False, col_space=13, columns=['participant_id', 'session_timestamp', 'unique_id', 'block_number', 'trial_number', 'mood_level', 'sound_type']))
+# print(temp.to_string(header=True, index=False, index_names=False, col_space=13, columns=['participant_id', 'session_timestamp', 'unique_id', 'block_number', 'trial_number', 'mood_level', 'sound_type']))
 writer = pd.ExcelWriter(os.path.join(results_directory, "P" + str(participant_number).zfill(3) + "_trials.xlsx"), engine='xlsxwriter')
 temp.to_excel(writer, str(participant_number), index=False, columns=['participant_id', 'session_timestamp', 'unique_id', 'block_number', 'trial_number', 'mood_level', 'sound_type'])
 writer.save()
 
+# load the sounds, with relative volumes
+beep = sound.Sound('beep_20ms', volume=0.4)
+click = sound.Sound('click_20ms', volume=1.0)
 
-tada = sound.Sound('click.wav')
-tada.play()
+# trial sequence
+for bk in range(1, n_blocks+1):
+    for tr in range(1, n_trials_per_block + 1):
+        instance = tr + ((bk - 1) * n_trials_per_block)
+        sound_type = trial_dict[instance]['sound_type']
+        # (A) 2 seconds of silence
+        core.wait(2)
+        # (B) play sound first time
+        if sound_type == 'beep':
+            beep.play()
+        elif sound_type == 'click':
+            click.play()
+        # (C) 500ms of silence
+        core.wait(0.5)
+        # (D) play sound second time
+        if sound_type == 'beep':
+            beep.play()
+        elif sound_type == 'click':
+            click.play()
+        # (E) silence for random between 5 seconds and 8 seconds
+        # random.randrange([start], stop[, step])
+        core.wait(secs=random.randrange(5.0, 8.0, 1))
+        core.quit()
+
