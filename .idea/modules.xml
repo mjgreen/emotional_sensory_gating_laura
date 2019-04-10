@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../ellen_sense_of_agency/.idea/ellen_sense_of_agency.iml" filepath="$PROJECT_DIR$/../ellen_sense_of_agency/.idea/ellen_sense_of_agency.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/emotional_sensory_gating_laura.iml" filepath="$PROJECT_DIR$/.idea/emotional_sensory_gating_laura.iml" />
     </modules>
   </component>
