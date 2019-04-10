@@ -84,7 +84,8 @@ writer = pd.ExcelWriter(os.path.join(results_directory, "P" + str(participant_nu
 temp.to_excel(writer, str(participant_number), index=False, columns=['participant_id', 'session_timestamp', 'unique_id', 'block_number', 'trial_number', 'mood_level', 'sound_type'])
 writer.save()
 
-win = visual.Window()
+#win = visual.Window(monitor="eeg")  # on linux
+win = visual.Window()  # on windows
 
 # load the sounds, with relative volumes
 beep = sound.Sound('beep_20ms.wav')
