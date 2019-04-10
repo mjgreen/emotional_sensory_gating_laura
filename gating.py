@@ -6,11 +6,11 @@ import sys
 import pandas as pd
 from psychopy import visual, core, event, gui, parallel, logging, prefs
 logging.console.setLevel(logging.DEBUG)  # get messages about the sound lib as it loads
-prefs.general['audioLib'] = ['sounddevice']  # 'pyo', 'pygame'
+prefs.general['audioLib'] = ['pyo']  # 'sounddevice', 'pyo', 'pygame'
 from psychopy import sound
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
-# os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
+os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
 
 # offer as this session's participant number the last participant's number plus 1
 os.path.exists("results") or os.makedirs("results")
@@ -74,7 +74,7 @@ for bk in range(1, n_blocks + 1):
             'sound_type': sound_list[instance-1]
         }
 
-# print(trial_dict[0])  # keyerror
+# print(trial_dict[0])  # is a key error - the dict of dicts is indexed by the name of the dict for that row: the name of the first row is 1
 
 # write trial_dict to excel
 temp = pd.DataFrame.from_dict(trial_dict, orient='columns')
@@ -84,10 +84,13 @@ writer = pd.ExcelWriter(os.path.join(results_directory, "P" + str(participant_nu
 temp.to_excel(writer, str(participant_number), index=False, columns=['participant_id', 'session_timestamp', 'unique_id', 'block_number', 'trial_number', 'mood_level', 'sound_type'])
 writer.save()
 
-# win = visual.Window(monitor="eeg")  # on linux
-win = visual.Window()  # on windows
+# win = visual.Window(monitor="testMonitor")  # on linux
+win = visual.Window(monitor="monitor_eeg", autoLog=True, winType='pygame')  # on linux after putting that file monitor_eeg.json in ~/.psychopy3/monitors (not having hacked calibTools.py)
+#                                                                           # winType defaults to 'pyglet' if unspecified
+#                                                                           # autoLog=True spells out the window specs in the log-to-console
+# win = visual.Window()  # on windows
 
-# load the sounds, with relative volumes
+# load the sounds
 beep = sound.Sound('beep_20ms.wav')
 click = sound.Sound('click_20ms.wav')
 
@@ -110,7 +113,7 @@ for bk in range(1, n_blocks+1):
             beep.play()
         elif sound_type == 'click':
             click.play()
-        # (E) silence for random between 5 seconds and 8 seconds
+        # (E) silence for random float between 5.0 seconds and 8.0 seconds
         core.wait(secs=random.uniform(5.0, 8.0))
         k = event.getKeys(keyList='escape')
         if k:
