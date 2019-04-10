@@ -10,7 +10,7 @@ prefs.general['audioLib'] = ['sounddevice']  # 'pyo', 'pygame'
 from psychopy import sound
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
-#os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
+# os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
 
 # offer as this session's participant number the last participant's number plus 1
 os.path.exists("results") or os.makedirs("results")
@@ -74,7 +74,7 @@ for bk in range(1, n_blocks + 1):
             'sound_type': sound_list[instance-1]
         }
 
-#print(trial_dict[0])  # keyerror
+# print(trial_dict[0])  # keyerror
 
 # write trial_dict to excel
 temp = pd.DataFrame.from_dict(trial_dict, orient='columns')
@@ -84,7 +84,7 @@ writer = pd.ExcelWriter(os.path.join(results_directory, "P" + str(participant_nu
 temp.to_excel(writer, str(participant_number), index=False, columns=['participant_id', 'session_timestamp', 'unique_id', 'block_number', 'trial_number', 'mood_level', 'sound_type'])
 writer.save()
 
-#win = visual.Window(monitor="eeg")  # on linux
+# win = visual.Window(monitor="eeg")  # on linux
 win = visual.Window()  # on windows
 
 # load the sounds, with relative volumes
