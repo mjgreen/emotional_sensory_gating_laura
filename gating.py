@@ -118,4 +118,3 @@ for bk in range(1, n_blocks+1):
             core.quit()
         else:
             pass
-
