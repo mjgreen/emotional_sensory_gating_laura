@@ -1,6 +1,6 @@
 # Laura RV's emotional sensory gating experiments
 
-Task: listen to the sounds. If the sound is a beep, do nothing. If the sound is a click, press the space bar.
+Task: listen to the sounds. If the sounds are beeps, do nothing. If the sounds are clicks, press the space bar.
 
 Trial sequence: { | 2000ms | sound | 500ms | sound | random(min=5000ms, max=8000ms) during which permit subject to press spacebar if the sounds were clicks | }
 
