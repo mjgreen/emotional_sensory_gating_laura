@@ -14,12 +14,12 @@ See the demo hardware > testSoundLatency.py
 import sys
 from psychopy import logging, prefs, core
 logging.console.setLevel(logging.DEBUG)  # get messages about the sound lib as it loads
-prefs.general['audioLib'] = ['pygame']
+prefs.general['audioLib'] = ['sounddevice'] # 'pyo', 'pygame'
 from psychopy import sound
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
-mybeep = sound.Sound('beep.wav')
-myclick = sound.Sound('click.wav')
+mybeep = sound.Sound('beep_20ms.wav')
+myclick = sound.Sound('click_20ms.wav')
 
 mybeep.play()
 core.wait(2)
@@ -30,31 +30,3 @@ core.wait(1)
 print('finished')
 core.quit()
 
-#
-#highA = sound.Sound('A', octave=3, sampleRate=44100, secs=0.8, stereo=True)
-#highA.setVolume(0.8)
-#tick = sound.Sound(800, secs=0.01, sampleRate=44100, stereo=True)  # sample rate ignored because already set
-#tock = sound.Sound('600', secs=0.01, sampleRate=44100, stereo=True)
-#
-#highA.play()
-#core.wait(0.8)
-#tick.play()
-#core.wait(0.4)
-#tock.play()
-#core.wait(0.6)
-
-#if sys.platform == 'win32':
-#    ding = sound.Sound('ding')
-#    ding.play()
-#
-#    core.wait(1)
-#
-#    tada = sound.Sound('beep.wav')
-#    tada.play()
-#
-#    core.wait(2)
-#print('done')
-
-#core.quit()
-
-# The contents of this file are in the public domain.
