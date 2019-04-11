@@ -1,3 +1,6 @@
+n_blocks = 1
+n_trials_per_block = 4
+
 import os
 import datetime
 import random
@@ -6,22 +9,23 @@ import sys
 import pandas as pd
 from psychopy import visual, core, event, gui, parallel, logging, prefs
 logging.console.setLevel(logging.DEBUG)  # get messages about the sound lib as it loads
-prefs.hardware['audioLib'] = ['pygame']  # 'sounddevice', 'pyo', 'pygame'
+prefs.hardware['audioLib'] = ['pyo']  # 'sounddevice', 'pyo', 'pygame'
 from psychopy import sound
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
 os.path.exists('/tmp/runtime-root') or os.mkdir('/tmp/runtime-root')
 
-# offer as this session's participant number the last participant's number plus 1
-os.path.exists("results") or os.makedirs("results")
-maximum_subject_number_in_results_dir = []
-last_participant_number = 0
-results_files_so_far = [f for f in os.listdir("results")]
-if results_files_so_far:
-    for this_participant in range(len(results_files_so_far)):
-        maximum_subject_number_in_results_dir.append((100 * int(results_files_so_far[this_participant][1])) + (10 * int(results_files_so_far[this_participant][2])) + (1 * int(results_files_so_far[this_participant][3])))
-    last_participant_number = max(maximum_subject_number_in_results_dir)
-suggest_this_participant_number = last_participant_number + 1
+# # offer as this session's participant number the last participant's number plus 1
+# os.path.exists("results") or os.makedirs("results")
+# maximum_subject_number_in_results_dir = []
+# last_participant_number = 0
+# results_files_so_far = [f for f in os.listdir("results")]
+# if results_files_so_far:
+#     for this_participant in range(len(results_files_so_far)):
+#         maximum_subject_number_in_results_dir.append((100 * int(results_files_so_far[this_participant][1])) + (10 * int(results_files_so_far[this_participant][2])) + (1 * int(results_files_so_far[this_participant][3])))
+#     last_participant_number = max(maximum_subject_number_in_results_dir)
+# suggest_this_participant_number = last_participant_number + 1
+suggest_this_participant_number = 0
 
 # handle the gui
 dialog = gui.Dlg(title="Enter session information")
@@ -58,8 +62,8 @@ coin_flip = random.sample(['heads', 'tails'], 1)[0]
 sound_list = sound_list_4_clicks + sound_list_5_clicks if coin_flip == 'heads' else sound_list_5_clicks + sound_list_4_clicks  # sound_list has length 160
 
 # prepare list of trials, length 160, which is one full session made of 2 blocks of 80 trials
-n_blocks = 2
-n_trials_per_block = 80
+# n_blocks = 2
+# n_trials_per_block = 80
 trial_dict = {}
 for bk in range(1, n_blocks + 1):
     for tr in range(1, n_trials_per_block + 1):
@@ -115,9 +119,4 @@ for bk in range(1, n_blocks+1):
             click.play()
         # (E) silence for random float between 5.0 seconds and 8.0 seconds
         core.wait(secs=random.uniform(5.0, 8.0))
-        k = event.getKeys(keyList='escape')
-        if k:
-            print('quitting')
-            core.quit()
-        else:
-            pass
+
