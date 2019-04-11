@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-sudo apt install libsndfile-dev portaudio19-dev  # this pulls in jack0 and jack1 things and removes jack2 things
+# Not installing portaudio19-dev because I installed portaudio from source this time
+#sudo apt install libsndfile-dev portaudio19-dev  # this pulls in jack0 and jack1 things and removes jack2 things
 
 pip install git+git://github.com/belangeo/pyo.git  # Successfully installed pyo-0.9.2
 
