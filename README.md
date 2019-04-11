@@ -7,3 +7,13 @@ Trial sequence: { | 2000ms | sound | 500ms | sound | random(min=5000ms, max=8000
 Experiment structure: 2 * (mood induction > block of trials). The mood induction is done as an offline pen and paper exercise. There are 2 levels of mood induction, anger; neutral. The order of (A) angry > trials; (B) neutral > trials is randomised between subjects so that some get A > B and others get B > A. A block is 80 trials. There is a rest after 40 trials. In one block there should be 76 trials where the sounds are both beeps, and 4 trials where the sounds are both clicks. The other block should have 75 trials where the sounds are both beeps and 5 trials where the sounds are both clicks. 
 
 The beeps should be as below: Square waves; intensity, 70dB, frequency, 1,000 Hz; duration, 1ms including 10% rise/fall envelope. Clicks can be anything, 1ms duration but sounding quite different from the beeps.
+
+# psychopy.sound - play various forms of sound
+Sound
+
+PsychoPy currently supports a choice of three sound libraries: pyo, sounddevice or pygame. Select which will be used via the audioLib preference. sound.Sound() will then refer to one of SoundDevice SoundPyo or SoundPygame. This can be set on a per-experiment basis by importing preferences, and setting the audioLib option to use.
+
+* The pygame backend is the oldest and should always work without errors, but has the least good performance. Use it if latencies foryour audio don’t mattter.
+* The pyo library is, in theory, the highest performer, but in practice it has ften had issues (at least on macOS) with crashes and freezing of experiments, or causing them not to finish properly. If those issues aren’t affecting your studies then this could be the one for you.
+* The sounddevice library looks like the way of the future. The performance appears to be good (although this might be less so in cases where you have complex rendering being done as well because it operates from the same computer core as the main experiment code). It’s newer than pyo and so more prone to bugs and we haven’t yet added microphone support to record your participants.
+
