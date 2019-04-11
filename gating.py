@@ -6,7 +6,7 @@ import sys
 import pandas as pd
 from psychopy import visual, core, event, gui, parallel, logging, prefs
 logging.console.setLevel(logging.DEBUG)  # get messages about the sound lib as it loads
-prefs.general['audioLib'] = ['pyo']  # 'sounddevice', 'pyo', 'pygame'
+prefs.hardware['audioLib'] = ['pyo']  # 'sounddevice', 'pyo', 'pygame'
 from psychopy import sound
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
