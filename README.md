@@ -1,3 +1,8 @@
+# Ubuntustudio
+default install
+
+`apt install xscreensaver` (to easily permit resume from lockced screen which is botched by default)
+
 # Laura RV's emotional sensory gating experiments
 
 Task: listen to the sounds. If the sounds are beeps, do nothing. If the sounds are clicks, press the space bar.
