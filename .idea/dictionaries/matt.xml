@@ -2,6 +2,8 @@
   <dictionary name="matt">
     <words>
       <w>clik</w>
+      <w>ntrial</w>
+      <w>portaudio</w>
       <w>psychopy</w>
       <w>pygame</w>
       <w>pysoundcard</w>
