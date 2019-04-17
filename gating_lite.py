@@ -30,11 +30,7 @@ def sound_trial(sound_type=None, trial_type_name=None, trial_number=0, n_trials=
     core.wait(secs=trial_final_silence)
 
 
-# trial_order = random.sample([['beep', 'click'], ['click', 'beep']], 1)[0]
 trial_order = ['beep', 'beep', 'beep', 'beep']
-# for times in range(4):
-#     trial_order = trial_order + random.sample([['beep', 'click'], ['click', 'beep']], 1)[0]
-# trial_order = [random.sample([['beep', 'click'], ['click', 'beep']], 1)[0] for t in range(4)]
 msg = '\ntrial order is %s; sound device is %s, driver is %s\n' % (trial_order, sound.audioLib, '\"probably portaudio\"' if not sound.audioDriver else sound.audioDriver)
 print(msg)
 
