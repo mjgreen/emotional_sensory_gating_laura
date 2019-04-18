@@ -3,7 +3,7 @@
 from pyo import *
 import time
 
-s = Server(duplex=0)
+s = Server(duplex=0, audio='jack')
 s.setOutputDevice(0)
 s.boot()
 s.start()

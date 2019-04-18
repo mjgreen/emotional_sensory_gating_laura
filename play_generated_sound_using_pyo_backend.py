@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/home/matt/anaconda3/bin/python3.7
 
 # from pyo import *
 # import random
@@ -30,18 +30,16 @@ s = Server(sr=48000, nchnls=2, buffersize=2048, duplex=0, audio='jack', jackname
 s.setOutputDevice(0)
 s.boot()
 s.start()
-s.setGlobalDur(0.04)
-sine = Sine(freq=1000, mul=1)
-sine_out = sine.out()
-fol2 = Follower2(sine_out, risetime=0.004, falltime=.004, mul=1)
+# s.setGlobalDur(0.04)
+sine = Sine(freq=1000).play()
+# sine_out = sine.out()
+# fol2 = Follower2(sine_out, risetime=0.004, falltime=.004, mul=1)
 # fol2.out()
 # time.sleep(1)
 for trial in range(3):
-    print("{} on".format(trial))
-    time.sleep(1)
-    fol2.out().play()
-    print("sound off")
-    time.sleep(.04)
+    time.sleep(0.1)
+    sine.out(dur=0.04)
+    time.sleep(0.04)
 
 # s.gui(locals())
 # time.sleep(1)

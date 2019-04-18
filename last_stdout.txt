@@ -1,0 +1,20 @@
+Cannot connect to server socket err = No such file or directory
+Cannot connect to server request channel
+Cannot create RT messagebuffer thread: Operation not permitted (1)
+Retrying messagebuffer thread without RT scheduling
+Messagebuffer not realtime; consider enabling RT scheduling for user
+no message buffer overruns
+Cannot create RT messagebuffer thread: Operation not permitted (1)
+Retrying messagebuffer thread without RT scheduling
+Messagebuffer not realtime; consider enabling RT scheduling for user
+no message buffer overruns
+Cannot create RT messagebuffer thread: Operation not permitted (1)
+Retrying messagebuffer thread without RT scheduling
+Messagebuffer not realtime; consider enabling RT scheduling for user
+no message buffer overruns
+Cannot lock down 82280346 byte memory area (Cannot allocate memory)
+Cannot use real-time scheduling (RR/10)(1: Operation not permitted)
+AcquireSelfRealTime error
+Cannot lock down 82280346 byte memory area (Cannot allocate memory)
+JackTemporaryException : now quits...
+Jack main caught signal 2

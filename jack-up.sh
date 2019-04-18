@@ -4,4 +4,4 @@ sudo jack_control start
 sudo jack_control status
 sudo jack_control exit
 pulseaudio --start
-#pasuspender qjackctl
+pasuspender qjackctl

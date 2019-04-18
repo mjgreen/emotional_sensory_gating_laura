@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/home/matt/anaconda3/bin/python3.7
 
 import numpy as np
 import sounddevice as sd

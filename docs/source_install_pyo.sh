@@ -30,4 +30,4 @@ echo
 # use anaconda3 python, assuming that 'which python' points to that
 which python
 # To compile both 32-bit and 64-bit resolutions on linux with jack support:
-python setup.py install --use-double --use-jack
+python setup.py install --use-double --use-jack | tee install.log.txt
