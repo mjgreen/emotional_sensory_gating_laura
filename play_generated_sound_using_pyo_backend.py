@@ -22,16 +22,15 @@
 # time.sleep(2)
 
 
-from pyo import *
+import pyo
 import time
 # s = Server(sr=512, duplex=0, audio='jack', nchnls=1)
-s = Server(sr=48000, nchnls=2, buffersize=2048, duplex=0, audio='jack', jackname='pyo')
-# s = Server(duplex=0)
+s = pyo.Server(sr=48000, nchnls=2, buffersize=2048, duplex=0, audio='jack', jackname='pyo')
 s.setOutputDevice(0)
 s.boot()
 s.start()
 # s.setGlobalDur(0.04)
-sine = Sine(freq=1000).play()
+sine = pyo.Sine(freq=1000).play()
 # sine_out = sine.out()
 # fol2 = Follower2(sine_out, risetime=0.004, falltime=.004, mul=1)
 # fol2.out()
@@ -39,9 +38,9 @@ sine = Sine(freq=1000).play()
 for trial in range(3):
     time.sleep(0.1)
     sine.out(dur=0.04)
-    time.sleep(0.04)
+#    time.sleep(0.04)
 
-# s.gui(locals())
+#s.gui(locals())
 # time.sleep(1)
 
 # n = fol2.out(dur=0.04)

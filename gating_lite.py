@@ -10,7 +10,7 @@ import time
 import pandas as pd
 import numpy as np
 import io
-from pyo import Sine
+from pyo import Sine, createServerGUI, Server
 from contextlib import redirect_stdout
 
 with redirect_stdout(io.StringIO()):
@@ -18,7 +18,10 @@ with redirect_stdout(io.StringIO()):
 logging.console.setLevel(logging.WARNING)
 prefs.hardware['audioLib'] = ["pyo"]
 from psychopy import sound, core
-sound_info = 'Using %s for sound backend in psychopy' % (sound.audioLib)
+sound_info = 'Using %s for sound backend in psychopy' % sound.audioLib
+
+
+# Server().boot().start().gui()
 
 
 def return_sounds():
@@ -66,9 +69,9 @@ trial_order = ['beep' for n in range(num_trials)]
 print(sound_info)
 print('trial order is %s' % trial_order)
 
-print("starting jack server")
-subprocess.check_output("jack_control start", shell=True)
-print("jack server {}".format(subprocess.check_output("jack_control status", shell=True).decode("utf-8").replace("\n", " ")))
+# print("starting jack server")
+# subprocess.check_output("jack_control start", shell=True)
+# print("jack server {}".format(subprocess.check_output("jack_control status", shell=True).decode("utf-8").replace("\n", " ")))
 
 file, wave, sine = return_sounds()
 start_time = time.time()
