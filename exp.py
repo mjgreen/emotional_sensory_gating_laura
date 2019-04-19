@@ -50,6 +50,7 @@ def start():
 def return_sounds():
     beep_file = SfPlayer('sounds/lijffijt_40ms_90dB_1000Hz_4ms_rise_fall.wav').play()
     beep_sine = Sine(freq=[1000, 1000])
+    time.sleep(2)
     return beep_file, beep_sine
 
 
