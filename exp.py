@@ -11,7 +11,7 @@ import time
 import os
 import io
 import socket
-from contextlib import contextmanager
+import random
 from contextlib import redirect_stdout
 with redirect_stdout(io.StringIO()):
     from psychopy import visual
@@ -32,8 +32,8 @@ def start():
     s.boot()
     s.start()
     num_trials = 160
-    n_beeps_per_trial = 1.0
-    est_trial_dur = 250.0 + 40 + 750
+    n_beeps_per_trial = 2.0
+    est_trial_dur = 2.000 + 0.040  + 0.5000 + 0.040
     n_ms_in_one_second = 1000.0
     tone_dur = 0.04
     hostname = socket.gethostname()
@@ -59,16 +59,20 @@ def run():
     for trial in range(num_trials):
         trial_start_time = time.time()
 
-        time.sleep(.25)          # ultimately secs=2.0
-        # send a trigger _now_ to indicate that the sound is about to be played. Maybe use pyo's parallelism to synch the sound with the trigger?
-        file.out()                    # or sine.out(dur=tone_dur)
-        time.sleep(tone_dur)     # set to 0.40, the dur of the wav file
-        time.sleep(.75)          # ultimately secs=random.random(6.0, 80)
+        time.sleep(2.000)
+        # trigger 1
+        file.out()                                 # or sine.out(dur=tone_dur)
+        time.sleep(0.040)
+        time.sleep(0.500)
+        # trigger 2
+        file.out()                                 # or sine.out(dur=tone_dur)
+        time.sleep(0.040)
+        time.sleep(random.random(.550, .750))
 
         trial_end_time = time.time()
         trial_dur = trial_end_time - trial_start_time
         trial_dur_in_ms = trial_dur * n_ms_in_one_second
-        mean_beep_dur = (trial_dur_in_ms-est_trial_dur) / n_beeps_per_trial
+        mean_beep_dur = (trial_dur_in_ms - est_trial_dur) / n_beeps_per_trial
         overhead = trial_dur_in_ms - est_trial_dur
 
         print("trial {}: total trial time = {:.2f} ms, ideal trial time is {:.2f} ms, trial overhead = {:.1f} ms, or {:.4f} %, mean beep duration ~~ {:.2f} ms, ideal beep duration is {:.2f} ms, so {:.2f} ms is mean beep overhead".format(str(trial+1).zfill(3), trial_dur_in_ms, est_trial_dur, overhead, overhead/trial_dur_in_ms, mean_beep_dur, n_ms_in_one_second * tone_dur, overhead/n_beeps_per_trial))
