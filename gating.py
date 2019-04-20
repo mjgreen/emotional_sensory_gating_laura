@@ -43,26 +43,29 @@ def construct_sound(beep_hz=1000.0):
     return beep
 
 def run():
-    with open("beep_times.dlm", "w+") as f:
-        f.write("trl  beep_1_duration  beep_2_duration\r\n")
-    win                       =  make_window()
-    s                         =  start_sound_server()
-    beep                      =  construct_sound(beep_hz=1000.0)
-    number_of_trials          =  160
-    break_trials              =  [39, 79, 119]
-    silence_before_beeps      =    2.000
-    beep_duration             =    0.040
-    silence_between_beeps     =    0.500
-    fixed_duration            =  silence_before_beeps + beep_duration + silence_between_beeps + beep_duration
-    min_duration_total        =    8.000
-    max_duration_total        =   10.000
-    min_duration              =  1  # min_duration_total - fixed_duration
-    max_duration              =  2  # max_duration_total - fixed_duration
-    beep1times = []
-    beep2times = []
-    print("\nAbout to run {} trials now...\n".format(number_of_trials))
-    for t in range(number_of_trials):
-        try:
+    try:
+        # print("\n")  # just to start console output with a blank line
+        with open("beep_times.dlm", "w+") as f:
+            f.write("trl  beep_1_duration  beep_2_duration\r\n")
+        win                       =  make_window()
+        print("Starting the sound server up now: warnings will be suppressed...")
+        with redirect_stdout(io.StringIO()):
+            s                     =  start_sound_server()
+        beep                      =  construct_sound(beep_hz=1000.0)
+        number_of_trials          =  160
+        break_trials              =  [39, 79, 119]
+        silence_before_beeps      =    2.000
+        beep_duration             =    0.040
+        silence_between_beeps     =    0.500
+        fixed_duration            =  silence_before_beeps + beep_duration + silence_between_beeps + beep_duration
+        min_duration_total        =    8.000
+        max_duration_total        =   10.000
+        min_duration              =  1  # min_duration_total - fixed_duration
+        max_duration              =  2  # max_duration_total - fixed_duration
+        beep1times = []
+        beep2times = []
+        print("About to run {} trials now...".format(number_of_trials))
+        for t in range(number_of_trials):
 
             # CORE TRIAL SEQUENCE
 
@@ -80,7 +83,8 @@ def run():
             time.sleep(beep_duration)
             beep2off = time.time()
 
-            time.sleep(random.uniform(min_duration, max_duration))
+            post_beep_silence_dur = random.uniform(min_duration, max_duration)
+            time.sleep(post_beep_silence_dur)
 
             # POST- TRIAL SEQUENCE
 
@@ -93,14 +97,14 @@ def run():
             with open("beep_times.dlm", "a") as f:
                 f.write("{:3s}  {:.12f}  {:.12f}\r\n".format(str(t+1).zfill(3), beep1dur, beep2dur))
 
-            print("trial {:3s}, beep 1 dur (ms) = {:.1f}; beep 2 dur (ms) = {:.1f}".format(str(t+1).zfill(3), beep1dur, beep2dur))
+            print("trial {:3s}: pre-beeps = {}; beep 1 = {:.1f}; inter-beeps = {}; beep 2 = {:.1f}, post-beeps = {:.1f}".format(str(t+1).zfill(3), int(1000.0*silence_before_beeps), beep1dur, int(1000.0*silence_between_beeps), beep2dur, 1000.0*post_beep_silence_dur))
 
             if t in break_trials:
                 input('take a break: the experimenter will resume the experiment soon: >>')
-        except:
-            print("\nSomething went wrong, or user quit deliberately\n")
-            s.stop()
-            win.close()
+    except:
+        print("\nSomething went wrong, or user quit deliberately\n")
+        s.stop()
+        win.close()
     s.stop()
     win.close()
 # TODO send beep durations to matplotlib for a histogram
