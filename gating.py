@@ -20,8 +20,10 @@ with redirect_stdout(io.StringIO()):
 
 def make_window():
     hostname = socket.gethostname()
-    if hostname in ['dingo', 'matt-Lenovo-ideapad-100S-14IBR']:
-        win = visual.Window(monitor="monitor_e330", units='pix', winType='pyglet', size=(400, 400), pos=(1920 - 300, 0), allowGUI=True, screen=0, fullscr=False)
+    if hostname == 'dingo':
+        win = visual.Window(monitor="monitor_e330", units='pix', winType='pyglet', size=(400, 400), pos=(1920 - 400, 0), allowGUI=True, screen=0, fullscr=False)
+    elif hostname == 'matt-Lenovo-ideapad-100S-14IBR':
+        win = visual.Window(monitor="monitor_e330", units='pix', winType='pyglet', size=(400, 400), pos=(1366 - 400, 0), allowGUI=True, screen=0, fullscr=False)
     else:
         win = visual.Window(monitor="monitor_eeg", units='pix', winType='pyglet', allowGUI=False, screen=1, fullscr=True)
     extent = 10
@@ -48,7 +50,7 @@ def run():
         with open("beep_times.dlm", "w+") as f:
             f.write("trl  beep_1_duration  beep_2_duration\r\n")
         win                       =  make_window()
-        print("Starting the sound server up now: warnings will be suppressed...")
+        print("\tStarting the sound server up now: warnings will be suppressed...")
         with redirect_stdout(io.StringIO()):
             s                     =  start_sound_server()
         beep                      =  construct_sound(beep_hz=1000.0)
@@ -64,7 +66,7 @@ def run():
         max_duration              =  2  # max_duration_total - fixed_duration
         beep1times = []
         beep2times = []
-        print("About to run {} trials now...".format(number_of_trials))
+        print("\tAbout to run {} trials now...".format(number_of_trials))
         for t in range(number_of_trials):
 
             # CORE TRIAL SEQUENCE
@@ -97,12 +99,12 @@ def run():
             with open("beep_times.dlm", "a") as f:
                 f.write("{:3s}  {:.12f}  {:.12f}\r\n".format(str(t+1).zfill(3), beep1dur, beep2dur))
 
-            print("trial {:3s}: pre-beeps = {}; beep 1 = {:.1f}; inter-beeps = {}; beep 2 = {:.1f}, post-beeps = {:.1f}".format(str(t+1).zfill(3), int(1000.0*silence_before_beeps), beep1dur, int(1000.0*silence_between_beeps), beep2dur, 1000.0*post_beep_silence_dur))
+            print("\ttrial {:3s}: pre-beeps = {}; beep 1 = {:.1f}; inter-beeps = {}; beep 2 = {:.1f}, post-beeps = {:.1f}".format(str(t+1).zfill(3), int(1000.0*silence_before_beeps), beep1dur, int(1000.0*silence_between_beeps), beep2dur, 1000.0*post_beep_silence_dur))
 
             if t in break_trials:
-                input('take a break: the experimenter will resume the experiment soon: >>')
+                input('\ttake a break: the experimenter will resume the experiment soon: >>')
     except:
-        print("\nSomething went wrong, or user quit deliberately\n")
+        print("\n\tSomething went wrong, or user quit deliberately\n")
         s.stop()
         win.close()
     s.stop()
