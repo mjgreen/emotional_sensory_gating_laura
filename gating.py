@@ -20,7 +20,7 @@ with redirect_stdout(io.StringIO()):
 
 def make_window():
     hostname = socket.gethostname()
-    if hostname == 'dingo':
+    if hostname in ['dingo', 'matt-Lenovo-ideapad-100S-14IBR']:
         win = visual.Window(monitor="monitor_e330", units='pix', winType='pyglet', size=(400, 400), pos=(1920 - 300, 0), allowGUI=True, screen=0, fullscr=False)
     else:
         win = visual.Window(monitor="monitor_eeg", units='pix', winType='pyglet', allowGUI=False, screen=1, fullscr=True)
