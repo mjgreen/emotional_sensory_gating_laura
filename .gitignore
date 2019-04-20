@@ -1,3 +1,6 @@
+# ignore the beep times
+beep_times.dlm
+
 # .idea
 .idea/workspace.xml
 
