@@ -50,7 +50,7 @@ def run():
         with open("beep_times.dlm", "w+") as f:
             f.write("trl  beep_1_duration  beep_2_duration\r\n")
         win                       =  make_window()
-        print("\tStarting the sound server up now: warnings will be suppressed...")
+        print("  matt: Starting the sound server up now: warnings will be suppressed...")
         with redirect_stdout(io.StringIO()):
             s                     =  start_sound_server()
         beep                      =  construct_sound(beep_hz=1000.0)
@@ -66,7 +66,7 @@ def run():
         max_duration              =  2  # max_duration_total - fixed_duration
         beep1times = []
         beep2times = []
-        print("\tAbout to run {} trials now...".format(number_of_trials))
+        print("  matt: About to run {} trials now...".format(number_of_trials))
         for t in range(number_of_trials):
 
             # CORE TRIAL SEQUENCE
@@ -99,12 +99,12 @@ def run():
             with open("beep_times.dlm", "a") as f:
                 f.write("{:3s}  {:.12f}  {:.12f}\r\n".format(str(t+1).zfill(3), beep1dur, beep2dur))
 
-            print("\ttrial {:3s}: pre-beeps = {}; beep 1 = {:.1f}; inter-beeps = {}; beep 2 = {:.1f}, post-beeps = {:.1f}".format(str(t+1).zfill(3), int(1000.0*silence_before_beeps), beep1dur, int(1000.0*silence_between_beeps), beep2dur, 1000.0*post_beep_silence_dur))
+            print("  matt: trial {:3s}: pre-beeps = {}; beep 1 = {:.1f}; inter-beeps = {}; beep 2 = {:.1f}, post-beeps = {:.1f}".format(str(t+1).zfill(3), int(1000.0*silence_before_beeps), beep1dur, int(1000.0*silence_between_beeps), beep2dur, 1000.0*post_beep_silence_dur))
 
             if t in break_trials:
                 input('\ttake a break: the experimenter will resume the experiment soon: >>')
     except:
-        print("\n\tSomething went wrong, or user quit deliberately\n")
+        print("\n  matt : Something went wrong, or user quit deliberately\n")
         s.stop()
         win.close()
     s.stop()
