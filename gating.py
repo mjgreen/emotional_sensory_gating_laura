@@ -23,7 +23,7 @@ def make_window():
     if hostname == 'dingo':
         win = visual.Window(monitor="monitor_e330", units='pix', winType='pyglet', size=(400, 400), pos=(1920 - 400, 0), allowGUI=True, screen=0, fullscr=False)
     elif hostname == 'matt-Lenovo-ideapad-100S-14IBR':
-        win = visual.Window(monitor="monitor_e330", units='pix', winType='pyglet', size=(400, 400), pos=(1366 - 400, 0), allowGUI=True, screen=0, fullscr=False)
+        win = visual.Window(monitor="monitor_100s", units='pix', winType='pyglet', size=(400, 400), pos=(1366 - 400, 0), allowGUI=True, screen=0, fullscr=False)
     else:
         win = visual.Window(monitor="monitor_eeg", units='pix', winType='pyglet', allowGUI=False, screen=1, fullscr=True)
     extent = 10
