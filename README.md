@@ -1,7 +1,8 @@
-# Ubuntustudio
-default install
+# TODO
 
-`apt install xscreensaver` (to easily permit resume from loccked screen which is botched by default)
+- [ ] Black Box test trigger-to-sound-onset latency and jitter 
+- [ ] Take a break stimulus to replace fixation cross during breaks
+- [ ] matplotlib / pylab histograms for latency and jitter
 
 # Laura RV's emotional sensory gating experiments
 
