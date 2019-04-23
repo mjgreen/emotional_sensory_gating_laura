@@ -1,5 +1,5 @@
 # TODO
-
+- [ ] add parallel port and send triggers
 - [ ] Black Box test trigger-to-sound-onset latency and jitter 
 - [ ] Take a break stimulus to replace fixation cross during breaks
 - [ ] matplotlib / pylab histograms for latency and jitter
