@@ -8,7 +8,6 @@ sudo apt install libportmidi-dev
 sudo apt install liblo-dev
 sudo apt install libjack-jackd2-dev 
 
-
 cd
 sh Downloads/Anaconda3-2019.03-Linux-x86_64.sh
 cd
@@ -31,6 +30,7 @@ cd
 
 #git clone git@github.com:mjgreen/gating.git
 #cd gating/
+#git config credential.helper store # if we are using https instead of ssh
 #python
 #import gating
 #gating.run()
