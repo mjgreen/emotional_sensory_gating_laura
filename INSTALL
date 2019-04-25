@@ -1,6 +1,7 @@
 sudo apt install xscreensaver # to prevent getting frozen out by ubuntustudio
 sudo apt install libsndfile1-dev portaudio19-dev libportmidi-dev liblo-dev libjack-jackd2-dev # pyo dependencies
 sudo apt install libglfw3-dev # glfw windowing backend for psychopy, if wanted
+sudo apt install ubuntu-gnome-desktop # fixed 'no sound coming out despite all signs indicating everything was working'
 
 wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
 sh Anaconda3-2019.03-Linux-x86_64.sh
