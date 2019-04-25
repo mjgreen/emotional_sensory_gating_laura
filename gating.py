@@ -6,21 +6,18 @@ Created on Thu Apr 18 18:49:34 2019
 @author: matt
 """
 
-from pyo import Server, Sine  # SfPlayer
+from pyo import Server, Sine  # SfPlayer # SfPlayer is for sound files; Sine is ok if we are generating our own sound from pyo itself
 from itertools import chain
 import time
 import csv
-# import os
 import io
 import socket
 import random
 from contextlib import redirect_stdout
-with redirect_stdout(io.StringIO()):
-    from psychopy import visual
+#with redirect_stdout(io.StringIO()):
+from psychopy import visual
 
 def make_window():
-    win=visual.Window()
-    return win
 #    hostname = socket.gethostname()
 #    if hostname in ['dingo', 'matt-Lenovo-ideapad-330S-14IKB']:
 #        win = visual.Window(monitor="monitor_e330", units='pix', winType='glfw', size=(400, 400), pos=(1920 - 400, 0), allowGUI=True, screen=0, fullscr=False)
@@ -28,6 +25,7 @@ def make_window():
 #        win = visual.Window(monitor="monitor_100s", units='pix', winType='pyglet', size=(400, 400), pos=(1366 - 400, 0), allowGUI=True, screen=0, fullscr=False)
 #    else:
 #        win = visual.Window(monitor="monitor_eeg", units='pix', winType='pyglet', allowGUI=False, screen=1, fullscr=True)
+    win=visual.Window(winType='glfw')
     extent = 10
     fixation = visual.ShapeStim(win, vertices=((0, -extent), (0, extent), (0, 0), (-extent, 0), (extent, 0)), lineWidth=2, closeShape=False, lineColor="black")
     fixation.draw()
@@ -53,8 +51,8 @@ def run():
             f.write("trl  beep_1_duration  beep_2_duration\r\n")
         win                       =  make_window()
         print("  matt: Starting the sound server up now: warnings will be suppressed...")
-        with redirect_stdout(io.StringIO()):
-            s                     =  start_sound_server()
+#        with redirect_stdout(io.StringIO()):
+        s                         =  start_sound_server()
         beep                      =  construct_sound(beep_hz=1000.0)
         number_of_trials          =  160
         break_trials              =  [39, 79, 119]
