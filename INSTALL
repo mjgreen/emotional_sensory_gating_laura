@@ -3,6 +3,8 @@ sudo apt install libsndfile1-dev portaudio19-dev libportmidi-dev liblo-dev libja
 sudo apt install libglfw3-dev # glfw windowing backend for psychopy, if wanted
 sudo apt install ubuntu-gnome-desktop # fixed 'no sound coming out despite all signs indicating everything was working'
 sudo apt install jackd2
+sudo adduser matt audio
+# reboot to make group add take effect (logout might be enough)
 
 # use gdm3 as window manager
 # select "Gnome on X11" from login screen
