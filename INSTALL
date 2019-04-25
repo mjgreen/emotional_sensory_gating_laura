@@ -29,9 +29,9 @@ cd psychopy
 python setup.py install
 cd
 
-#git clone git@github.com:mjgreen/emotional_sensory_gating_laura.git
-#cd emotional_sensory_gating_laura/
+#git clone git@github.com:mjgreen/gating.git
+#cd gating/
 #python
-#import exp
-#exp.run()
+#import gating
+#gating.run()
 
