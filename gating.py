@@ -25,7 +25,7 @@ def make_window():
 #        win = visual.Window(monitor="monitor_100s", units='pix', winType='pyglet', size=(400, 400), pos=(1366 - 400, 0), allowGUI=True, screen=0, fullscr=False)
 #    else:
 #        win = visual.Window(monitor="monitor_eeg", units='pix', winType='pyglet', allowGUI=False, screen=1, fullscr=True)
-    win=visual.Window(winType='pyglet', units='pix', allowGUI=False, fullscr=True, screen=1, monitor="monitor_acer")
+    win=visual.Window(winType='pyglet', size=[1920, 1080], units='pix', allowGUI=False, fullscr=True, screen=1, monitor="monitor_acer")
     extent = 10
     fixation = visual.ShapeStim(win, vertices=((0, -extent), (0, extent), (0, 0), (-extent, 0), (extent, 0)), lineWidth=2, closeShape=False, lineColor="black")
     fixation.draw()
