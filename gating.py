@@ -56,14 +56,13 @@ def run():
         beep                      =  construct_sound(beep_hz=1000.0)
         number_of_trials          =  160
         break_trials              =  [39, 79, 119]
+        # DURATIONS, IN SECONDS
         silence_before_beeps      =    2.000
-        beep_duration             =    0.040
+        beep_duration             =    0.010  # Laura = 0.010 as of 23 May (was previously 0.040)
         silence_between_beeps     =    0.500
         fixed_duration            =  silence_before_beeps + beep_duration + silence_between_beeps + beep_duration
-        min_duration_total        =    8.000
-        max_duration_total        =   10.000
-        min_duration              =  1  # min_duration_total - fixed_duration
-        max_duration              =  2  # max_duration_total - fixed_duration
+        min_duration              =  6.0  # min_duration_total - fixed_duration # Laura = 6 seconds
+        max_duration              =  8.0  # max_duration_total - fixed_duration # Laura = 8 seconds
         beep1times = []
         beep2times = []
         print("  matt: About to run {} trials now...".format(number_of_trials))
