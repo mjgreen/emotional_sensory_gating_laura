@@ -3,6 +3,11 @@
 """
 Created on Thu Apr 18 18:49:34 2019
 
+usage:
+1 start a python session
+2 import gating
+3 gating.run()
+
 @author: matt
 """
 
@@ -15,7 +20,7 @@ import socket
 import random
 from contextlib import redirect_stdout
 #with redirect_stdout(io.StringIO()):
-from psychopy import visual
+from psychopy import visual, event, core
 
 def make_window():
 #    hostname = socket.gethostname()
@@ -85,7 +90,13 @@ def run():
             beep2off = time.time()
 
             post_beep_silence_dur = random.uniform(min_duration, max_duration)
-            time.sleep(post_beep_silence_dur)
+            t0 = core.getTime()
+            while core.getTime() - t0 < post_beep_silence_dur:
+                k = event.getKeys(keyList=['escape'])
+                if k:
+                    print("quitting because experimenter pressed escape")
+                    win.close()
+                    core.quit()
 
             # POST- TRIAL SEQUENCE
 
