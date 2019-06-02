@@ -1,4 +1,5 @@
 sudo apt install xscreensaver # to prevent getting frozen out by ubuntustudio
+
 sudo apt install libsndfile1-dev portaudio19-dev libportmidi-dev liblo-dev libjack-jackd2-dev # pyo dependencies
 sudo apt install libglfw3-dev # glfw windowing backend for psychopy, if wanted
 sudo apt install ubuntu-gnome-desktop # fixed 'no sound coming out despite all signs indicating everything was working'
