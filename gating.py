@@ -23,14 +23,20 @@ from contextlib import redirect_stdout
 from psychopy import visual, event, core
 
 def make_window():
-#    hostname = socket.gethostname()
-#    if hostname in ['dingo', 'matt-Lenovo-ideapad-330S-14IKB']:
-#        win = visual.Window(monitor="monitor_e330", units='pix', winType='glfw', size=(400, 400), pos=(1920 - 400, 0), allowGUI=True, screen=0, fullscr=False)
-#    elif hostname == 'matt-Lenovo-ideapad-100S-14IBR':
-#        win = visual.Window(monitor="monitor_100s", units='pix', winType='pyglet', size=(400, 400), pos=(1366 - 400, 0), allowGUI=True, screen=0, fullscr=False)
-#    else:
-#        win = visual.Window(monitor="monitor_eeg", units='pix', winType='pyglet', allowGUI=False, screen=1, fullscr=True)
-    win=visual.Window(winType='pyglet', size=[1920, 1080], units='pix', allowGUI=False, fullscr=True, screen=1, monitor="monitor_acer")
+    # do all monitor and screen stuff
+    viewpixx = monitors.Monitor("eeg", width=54, distance=53)
+    viewpixx.setSizePix((1920, 1080))
+    viewpixx.saveMon()
+    monitor = viewpixx
+    which_screen = 1
+    print("using {} monitor".format(monitor.name))
+    xpx = monitor.getSizePix()[0]
+    ypx = monitor.getSizePix()[1]
+    xcm = monitor.getWidth()
+    win = visual.Window(fullscr=True, size=[xpx, ypx], units='pix', allowGUI=False, waitBlanking=True, color=[0, 0, 0], monitor=monitor.name, screen=which_screen, winType=None)
+    # win = visual.Window(fullscr=False, size=[800, 600], units='pix', allowGUI=True, waitBlanking=True, color=[0, 0, 0], monitor=monitor.name, screen=which_screen, winType=None)
+    actual_frame_rate = win.getActualFrameRate()
+    print("actual frame rate: {} Hz".format(int(round(actual_frame_rate))))
     extent = 10
     fixation = visual.ShapeStim(win, vertices=((0, -extent), (0, extent), (0, 0), (-extent, 0), (extent, 0)), lineWidth=2, closeShape=False, lineColor="black")
     fixation.draw()
