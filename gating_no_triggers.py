@@ -3,8 +3,8 @@
 """
 This is the version without triggers.
 In development it is being done in linux with anaconda3 python 3.7
-The no_triggers version is intended to be run on win7 in psychopy3 in P103
 The triggers version is intended to be run in win7 on P213's Z440
+The no_triggers version is intended to be run on win7 in psychopy3 in P103
 """
 
 from pyo import Server, Sine  # SfPlayer # SfPlayer is for sound files; Sine is ok if we are generating our own sound from pyo itself
@@ -127,9 +127,8 @@ def run():
     silence_before_beeps = 2.000
     beep_duration = 0.010  # Laura = 0.010 as of 23 May (was previously 0.040)
     silence_between_beeps = 0.500
-    fixed_duration = silence_before_beeps + beep_duration + silence_between_beeps + beep_duration
-    min_duration = 6.0  # min_duration_total - fixed_duration # Laura = 6 seconds
-    max_duration = 8.0  # max_duration_total - fixed_duration # Laura = 8 seconds
+    min_duration = 6.0  # Laura = 6 seconds
+    max_duration = 8.0  # Laura = 8 seconds
     block_number = 1
     press_any_key_when_ready(win)
     for t in range(number_of_trials):

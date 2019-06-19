@@ -1,14 +1,10 @@
 #!/home/matt/anaconda3/bin/python3.7
 # -*- coding: utf-8 -*-
 """
-Created on Thu Apr 18 18:49:34 2019
-
-usage:
-1 start a python session
-2 import gating
-3 gating.run()
-
-@author: matt
+This is the version WITH triggers.
+In development it is being done in linux with anaconda3 python 3.7
+The triggers version is intended to be run in win7 on P213's Z440
+The no_triggers version is intended to be run on win7 in psychopy3 in P103
 """
 
 from pyo import Server, Sine  # SfPlayer # SfPlayer is for sound files; Sine is ok if we are generating our own sound from pyo itself
@@ -16,7 +12,7 @@ import time
 import random
 import os
 import platform
-from psychopy import visual, event, core, monitors, parallel
+from psychopy import visual, event, core, monitors, parallel, gui
 
 def get_parallel_port_address():
     if platform.system() == 'Linux':
@@ -36,10 +32,10 @@ def get_parallel_port_address():
             parallel_port = parallel.ParallelPort(address=0x1FF8)  # eeg z440
             # psychopy.logging.flush()
         except RuntimeError:
-            print("Parallel port cock-up:\n" +
-                  "On Windows, 64bit Python can't use inpout32's parallel port driver, which cocks everything up.\n" +
-                  "The solution is to use 32 bit python instead. Build psychopy using pip from the 32 bit python.\n" +
-                  "Make sure inpout32.dll is in the toplevel at runtime.\n")
+            print("Parallel port cock-up:\n")
+            # "On Windows, 64bit Python can't use inpout32's parallel port driver, which cocks everything up.\n" +
+            # "The solution is to use 32 bit python instead. Build psychopy using pip from the 32 bit python.\n" +
+            # "Make sure inpout32.dll is in the toplevel at runtime.\n")
             there_is_a_parallel_port = False
             parallel_port = None
             return there_is_a_parallel_port, parallel_port
@@ -62,11 +58,27 @@ def make_window():
     win = visual.Window(fullscr=False, size=[800, 600], units='pix', allowGUI=True, waitBlanking=True, color=[0, 0, 0], monitor=monitor.name, screen=which_screen, winType=None)
     actual_frame_rate = win.getActualFrameRate()
     print("actual frame rate: {} Hz".format(int(round(actual_frame_rate))))
+    return win
+
+def press_any_key_when_ready(win):
+    txt = visual.TextStim(win, "Press any key when you are ready to continue")
+    txt.draw()
+    win.flip()
+    event.waitKeys()
+    win.flip()
+
+def take_a_break(win):
+    txt = visual.TextStim(win, "Please take a break.")
+    txt.draw()
+    win.flip()
+    event.waitKeys()
+    win.flip()
+
+def do_fix_cross(win):
     extent = 10
     fixation = visual.ShapeStim(win, vertices=((0, -extent), (0, extent), (0, 0), (-extent, 0), (extent, 0)), lineWidth=2, closeShape=False, lineColor="black")
     fixation.draw()
     win.flip()
-    return win
 
 def start_sound_server():
     s = Server(sr=48000, nchnls=2, buffersize=2048, duplex=0, audio='jack', jackname='pyo')
@@ -86,7 +98,14 @@ def graceful_exit(s, win):
     core.quit()
 
 def get_participant_number():
-    participant_number = input("participant number: ")
+    my_dlg = gui.Dlg(title="gating")
+    my_dlg.addField('Participant number:')
+    ok_data = my_dlg.show()  # show dialog and wait for OK or Cancel
+    if my_dlg.OK:  # or if ok_data is not None
+        print(ok_data)
+    else:
+        print('user cancelled')
+    participant_number = ok_data[0]
     return participant_number
 
 def run():
@@ -108,11 +127,13 @@ def run():
     silence_before_beeps = 2.000
     beep_duration = 0.010  # Laura = 0.010 as of 23 May (was previously 0.040)
     silence_between_beeps = 0.500
-    fixed_duration = silence_before_beeps + beep_duration + silence_between_beeps + beep_duration
-    min_duration = 6.0  # min_duration_total - fixed_duration # Laura = 6 seconds
-    max_duration = 8.0  # max_duration_total - fixed_duration # Laura = 8 seconds
+    min_duration = 6.0  # Laura = 6 seconds
+    max_duration = 8.0  # Laura = 8 seconds
     block_number = 1
+    press_any_key_when_ready(win)
     for t in range(number_of_trials):
+
+        do_fix_cross(win)
 
         parallel_port.setData(0)
 
@@ -153,7 +174,7 @@ def run():
         print(trial_info)
 
         if t in break_trials:
-            input('\ttake a break: the experimenter will resume the experiment soon: >>')
+            take_a_break(win)
             block_number += 1
 
     # number_of_trials has been reached
