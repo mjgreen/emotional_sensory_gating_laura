@@ -7,7 +7,7 @@ The triggers version is intended to be run in win7 on P213's Z440
 The no_triggers version is intended to be run on win7 in psychopy3 in P103
 """
 
-from pyo import Server, Sine  # SfPlayer # SfPlayer is for sound files; Sine is ok if we are generating our own sound from pyo itself
+# from pyo import Server, Sine  # SfPlayer # SfPlayer is for sound files; Sine is ok if we are generating our own sound from pyo itself
 import time
 import random
 import os
@@ -20,34 +20,34 @@ from psychopy import sound, core
 print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
 
 
-def get_parallel_port_address():
-    if platform.system() == 'Linux':
-        try:
-            parallel_port = parallel.ParallelPort(address='/dev/parport0')
-            print(parallel_port)
-        except OSError:
-            print("Parallel port cock-up: No such device or address: '/dev/parport0': " +
-                  "Did you run 'sudo rmmod lp ; sudo modprobe ppdev' yet?: " +
-                  "Did you do 'sudo adduser matt lp' to get access to the port?\n")
-            core.quit()
-        else:
-            there_is_a_parallel_port = True
-            return there_is_a_parallel_port, parallel_port
-    elif platform.system() == 'Windows':
-        try:
-            parallel_port = parallel.ParallelPort(address=0x1FF8)  # eeg z440
-            # psychopy.logging.flush()
-        except RuntimeError:
-            print("Parallel port cock-up:\n")
-            # "On Windows, 64bit Python can't use inpout32's parallel port driver, which cocks everything up.\n" +
-            # "The solution is to use 32 bit python instead. Build psychopy using pip from the 32 bit python.\n" +
-            # "Make sure inpout32.dll is in the toplevel at runtime.\n")
-            there_is_a_parallel_port = False
-            parallel_port = None
-            return there_is_a_parallel_port, parallel_port
-        else:
-            there_is_a_parallel_port = True
-            return there_is_a_parallel_port, parallel_port
+# def get_parallel_port_address():
+#     if platform.system() == 'Linux':
+#         try:
+#             parallel_port = parallel.ParallelPort(address='/dev/parport0')
+#             print(parallel_port)
+#         except OSError:
+#             print("Parallel port cock-up: No such device or address: '/dev/parport0': " +
+#                   "Did you run 'sudo rmmod lp ; sudo modprobe ppdev' yet?: " +
+#                   "Did you do 'sudo adduser matt lp' to get access to the port?\n")
+#             core.quit()
+#         else:
+#             there_is_a_parallel_port = True
+#             return there_is_a_parallel_port, parallel_port
+#     elif platform.system() == 'Windows':
+#         try:
+#             parallel_port = parallel.ParallelPort(address=0x1FF8)  # eeg z440
+#             # psychopy.logging.flush()
+#         except RuntimeError:
+#             print("Parallel port cock-up:\n")
+#             # "On Windows, 64bit Python can't use inpout32's parallel port driver, which cocks everything up.\n" +
+#             # "The solution is to use 32 bit python instead. Build psychopy using pip from the 32 bit python.\n" +
+#             # "Make sure inpout32.dll is in the toplevel at runtime.\n")
+#             there_is_a_parallel_port = False
+#             parallel_port = None
+#             return there_is_a_parallel_port, parallel_port
+#         else:
+#             there_is_a_parallel_port = True
+#             return there_is_a_parallel_port, parallel_port
 
 def make_window():
     viewpixx = monitors.Monitor("eeg", width=54, distance=53)
@@ -189,6 +189,6 @@ for t in range(number_of_trials):
         block_number += 1
 
 # number_of_trials has been reached
-s.stop()
+# s.stop()
 win.close()
 core.quit()
