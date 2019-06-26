@@ -27,8 +27,8 @@ def make_window():
     return win
 
 def press_any_key_when_ready(win):
-    txt = visual.TextStim(win, "Press any key when you are ready to continue")
-    txt.draw()
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="In this task you will need to listen to beeps.\nDuring this time try to remember your angry situation.\nThink about how angry you felt at the time, and how angry you feel now.\nPress any key when you are ready to continue")
+    instr.draw()
     win.flip()
     event.waitKeys()
     win.flip()
@@ -48,7 +48,7 @@ def do_fix_cross(win):
 
 def start_sound_server():
     if platform.system() == 'Windows':
-        host = "mme"
+        host = "asio"
         s = Server(duplex=0)
         s.reinit(buffersize=1024, duplex=0, winhost=host)
         s.boot()
@@ -91,12 +91,14 @@ trial_info_header = "participant\tblock\ttrl\tprebeep\tbeep1\tinterbeep\tbeep2\t
 with open(results_path, "a") as f:
     f.write(trial_info_header)
 win = make_window()
-beep = sound.Sound(1000.0, secs=0.01, sampleRate=44100, stereo=True)
-beep.setVolume(0.3)
-number_of_trials = 160
-break_trials = [39, 79, 119]
-silence_before_beeps = 2.000
 beep_duration = 0.010  # Laura = 0.010 as of 23 May (was previously 0.040)
+beep = sound.Sound(2000.0, secs=beep_duration, sampleRate=44100, stereo=True)
+beep.setVolume(1.0)
+#number_of_trials = 160
+#break_trials = [39, 79, 119]
+number_of_trials = 80
+break_trials = [39]
+silence_before_beeps = 2.000
 silence_between_beeps = 0.500
 min_duration = 6.0  # Laura = 6 seconds
 max_duration = 8.0  # Laura = 8 seconds
