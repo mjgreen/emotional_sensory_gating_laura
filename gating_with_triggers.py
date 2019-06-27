@@ -26,16 +26,23 @@ def make_window():
     print("actual frame rate: {} Hz".format(int(round(actual_frame_rate))))
     return win
 
-def press_any_key_when_ready(win):
-    txt = visual.TextStim(win, "Press any key when you are ready to continue")
-    txt.draw()
+def initial_instruction(win):
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="In this task you will need to listen to beeps.")
+    instr.draw()
     win.flip()
     event.waitKeys()
     win.flip()
-
-def take_a_break(win):
-    txt = visual.TextStim(win, "Please take a break.")
-    txt.draw()
+    
+def end_of_block_1(win):
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Please just listen to the beeps.")
+    instr.draw()
+    win.flip()
+    event.waitKeys()
+    win.flip()
+    
+def end_of_block_2_and_3(win):
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Please try to remember your angry scenario, how angry you felt at the time, and how angry you feel now.")
+    instr.draw()
     win.flip()
     event.waitKeys()
     win.flip()
@@ -48,7 +55,7 @@ def do_fix_cross(win):
 
 def start_sound_server():
     if platform.system() == 'Windows':
-        host = "mme"
+        host = "asio"
         s = Server(duplex=0)
         s.reinit(buffersize=1024, duplex=0, winhost=host)
         s.boot()
@@ -60,10 +67,6 @@ def start_sound_server():
         s.boot()
         s.start()
     return s
-
-def construct_sound(beep_hz=1000.0):
-    beep = Sine(freq=[beep_hz, beep_hz]).play()
-    return beep
 
 def graceful_exit(s, win):
     s.stop()
@@ -91,17 +94,17 @@ trial_info_header = "participant\tblock\ttrl\tprebeep\tbeep1\tinterbeep\tbeep2\t
 with open(results_path, "a") as f:
     f.write(trial_info_header)
 win = make_window()
-beep = sound.Sound(1000.0, secs=0.01, sampleRate=44100, stereo=True)
-beep.setVolume(0.3)
+beep_duration = 0.010  # Laura = 0.010 as of 23 May (was previously 0.040)
+beep = sound.Sound(2000.0, secs=beep_duration, sampleRate=44100, stereo=True)
+beep.setVolume(1.0)
 number_of_trials = 160
 break_trials = [39, 79, 119]
 silence_before_beeps = 2.000
-beep_duration = 0.010  # Laura = 0.010 as of 23 May (was previously 0.040)
 silence_between_beeps = 0.500
-min_duration = 6.0  # Laura = 6 seconds
-max_duration = 8.0  # Laura = 8 seconds
+min_duration = 6.0
+max_duration = 8.0
 block_number = 1
-press_any_key_when_ready(win)
+initial_instruction(win)
 for t in range(number_of_trials):
 
     do_fix_cross(win)
@@ -145,10 +148,12 @@ for t in range(number_of_trials):
         f.write(trial_info+"\n")
 
     if t in break_trials:
-        take_a_break(win)
+        if block == 1:
+            end_of_block_1(win)
+        if block in [2, 3]:
+            end_of_block_2_and_3(win)
         block_number += 1
 
-# number_of_trials has been reached
 s.stop()
 win.close()
 core.quit()
