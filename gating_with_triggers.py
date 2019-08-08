@@ -1,5 +1,6 @@
 import time
 import random
+import gc
 import os
 import platform
 from psychopy import visual, event
@@ -21,35 +22,49 @@ def make_window():
     xpx = monitor.getSizePix()[0]
     ypx = monitor.getSizePix()[1]
     xcm = monitor.getWidth()
-    win = visual.Window(fullscr=True, size=[xpx, ypx], units='pix', allowGUI=False, waitBlanking=True, color=[0, 0, 0], monitor=monitor.name, screen=which_screen, winType=None)
+    win = visual.Window(fullscr=True, size=[xpx, ypx], units='pix', allowGUI=False, waitBlanking=True, color=[.1, .1, .1], monitor=monitor.name, screen=which_screen, winType=None)
     actual_frame_rate = win.getActualFrameRate()
     print("actual frame rate: {} Hz".format(int(round(actual_frame_rate))))
     return win
 
 def initial_instruction(win):
-    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="In this task you will need to listen to beeps.")
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Your task is to listen to beeps. You do not need to do anything apart from  keeping your eyes on the fixation cross. Please also relax as much as you can and do not move your head as we are recording what your brain is doing during this task.\n\nPress any key to start.")
     instr.draw()
     win.flip()
     event.waitKeys()
     win.flip()
     
 def end_of_block_1(win):
-    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Please just listen to the beeps.")
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Your task is to listen to beeps. You do not need to do anything apart from  keeping your eyes on the fixation cross. Please also relax as much as you can and do not move your head as we are recording what your brain is doing during this task.\n\nPress any key to start.")
     instr.draw()
     win.flip()
     event.waitKeys()
     win.flip()
     
-def end_of_block_2_and_3(win):
-    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Please try to remember your angry scenario, how angry you felt at the time, and how angry you feel now.")
+def end_of_block_2(win):
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Now the experimenter will come for the anger induction.")
+    instr.draw()
+    win.flip()
+    event.waitKeys()
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Press any key to start.")
+    instr.draw()
+    win.flip()
+    event.waitKeys()
+    
+def end_of_block_3(win):
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Now for the next minute, please recall your angry scenario, remember how angry you felt at the time, and how angry you feel now.")
+    instr.draw()
+    win.flip()
+    core.wait(60)
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Press any key to start.")
     instr.draw()
     win.flip()
     event.waitKeys()
     win.flip()
 
 def do_fix_cross(win):
-    extent = 10
-    fixation = visual.ShapeStim(win, vertices=((0, -extent), (0, extent), (0, 0), (-extent, 0), (extent, 0)), lineWidth=2, closeShape=False, lineColor="black", autoLog=False)
+    extent = 20
+    fixation = visual.ShapeStim(win, vertices=((0, -extent), (0, extent), (0, 0), (-extent, 0), (extent, 0)), lineWidth=6, closeShape=False, lineColor="black", autoLog=False)
     fixation.draw()
     win.flip()
 
@@ -83,6 +98,12 @@ def get_participant_number():
         print('user cancelled')
     participant_number = ok_data[0]
     return participant_number
+    
+# raise thread priority
+core.rush(True)
+
+# garbage collection off
+gc.disable()
 
 participant_number = get_participant_number()
 os.path.isdir("results") or os.mkdir("results")
@@ -147,13 +168,22 @@ for t in range(number_of_trials):
     with open(results_path, "a") as f:
         f.write(trial_info+"\n")
 
-    if t in break_trials:
-        if block == 1:
-            end_of_block_1(win)
-        if block in [2, 3]:
-            end_of_block_2_and_3(win)
-        block_number += 1
-
+    #39, 79, 119
+    if t == 39:
+        end_of_block_1(win)
+    if t == 79:
+        end_of_block_2(win)
+    if t == 119:
+        end_of_block_3(win)
+        
+# stop sound server
 s.stop()
+# garbage collection on again
+gc.enable()
+# lower thread priority
+core.rush(False)
+# close window
 win.close()
+# quit process
 core.quit()
+ 
