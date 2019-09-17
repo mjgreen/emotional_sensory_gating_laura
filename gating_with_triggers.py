@@ -133,24 +133,28 @@ for t in range(number_of_trials):
     parallel_port.setData(0)
 
     time.sleep(silence_before_beeps)
-
+    
+    parallel_port.setData(0)
     beep_number = 1
-    trigger_code = (beep_number*10) + block_number
+    trigger_code_1 = (beep_number*10) + block_number
     beep1on = time.time()
-    parallel_port.setData(trigger_code)
+    parallel_port.setData(trigger_code_1)
     beep.play()
     time.sleep(beep_duration)
     beep1off = time.time()
+    parallel_port.setData(0)
 
     time.sleep(silence_between_beeps)
-
+    
+    parallel_port.setData(0)
     beep_number = 2
-    trigger_code = (beep_number * 10) + block_number
+    trigger_code_2 = (beep_number * 10) + block_number
     beep2on = time.time()
-    parallel_port.setData(trigger_code)
+    parallel_port.setData(trigger_code_2)
     beep.play()
     time.sleep(beep_duration)
     beep2off = time.time()
+    parallel_port.setData(0)
 
     post_beep_silence_dur = random.uniform(min_duration, max_duration)
     t0 = core.getTime()
@@ -161,8 +165,8 @@ for t in range(number_of_trials):
             win.close()
             core.quit()
 
-    trial_info = "{}\t{}\t{:3s}\t{}\t{:.12f}\t{}\t{:.12f}\t{}".format(participant_number, block_number, str(t+1).zfill(3), 1000.0*silence_before_beeps, 1000.0*(beep1off-beep1on), 1000.0*silence_between_beeps, 1000.0*(beep2off-beep2on), 1000.0*post_beep_silence_dur)
-
+    #trial_info = "{}\t{}\t{:3s}\t{}\t{:.3f}\t{}\t{:.3f}\t{}\t{}\t{}".format(participant_number, block_number, str(t+1).zfill(3), round(1000.0*silence_before_beeps,2), 1000.0*(beep1off-beep1on),2, round(1000.0*silence_between_beeps,2), 1000.0*(beep2off-beep2on), round(1000.0*post_beep_silence_dur,2), trigger_code_1, trigger_code_2)
+    trial_info = "{}\t{}".format(trigger_code_1, trigger_code_2)
     print(trial_info)
     
     with open(results_path, "a") as f:
@@ -170,10 +174,13 @@ for t in range(number_of_trials):
 
     #39, 79, 119
     if t == 39:
+        block_number = block_number + 1
         end_of_block_1(win)
     if t == 79:
+        block_number = block_number + 1
         end_of_block_2(win)
     if t == 119:
+        block_number = block_number + 1
         end_of_block_3(win)
         
 # stop sound server
