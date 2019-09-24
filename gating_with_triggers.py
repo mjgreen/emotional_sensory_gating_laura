@@ -1,3 +1,7 @@
+"""
+use python 2
+"""
+
 import time
 import random
 import gc
@@ -9,8 +13,7 @@ logging.console.setLevel(logging.DEBUG)
 prefs.hardware['audioLib'] = ['pygame']
 from psychopy import sound, core
 print('Using %s for sounds' % sound.audioLib)
-
-parallel_port = parallel.ParallelPort(address=0x1FF8)  # eeg z440
+logging.console.setLevel(logging.ERROR)
 
 def make_window():
     viewpixx = monitors.Monitor("eeg", width=54, distance=53)
@@ -21,14 +24,14 @@ def make_window():
     print("using {} monitor".format(monitor.name))
     xpx = monitor.getSizePix()[0]
     ypx = monitor.getSizePix()[1]
-    xcm = monitor.getWidth()
+    # xcm = monitor.getWidth()
     win = visual.Window(fullscr=True, size=[xpx, ypx], units='pix', allowGUI=False, waitBlanking=True, color=[.1, .1, .1], monitor=monitor.name, screen=which_screen, winType=None)
     actual_frame_rate = win.getActualFrameRate()
     print("actual frame rate: {} Hz".format(int(round(actual_frame_rate))))
     return win
 
 def initial_instruction(win):
-    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Your task is to listen to beeps. You do not need to do anything apart from  keeping your eyes on the fixation cross. Please also relax as much as you can and do not move your head as we are recording what your brain is doing during this task.\n\nPress any key to start.")
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Your task is to listen to beeps. You do not need to do anything apart from keeping your eyes on the fixation cross. Please also relax as much as you can and do not move your head as we are recording what your brain is doing during this task.\n\nPress any key to start.")
     instr.draw()
     win.flip()
     event.waitKeys()
@@ -69,6 +72,7 @@ def do_fix_cross(win):
     win.flip()
 
 def start_sound_server():
+    s = None
     if platform.system() == 'Windows':
         host = "asio"
         s = Server(duplex=0)
@@ -90,22 +94,29 @@ def graceful_exit(s, win):
 
 def get_participant_number():
     my_dlg = gui.Dlg(title="gating")
-    my_dlg.addField('Participant number:')
+    my_dlg.addField('Participant number:', 999)
+    my_dlg.addField('parallel port?', initial=False)
     ok_data = my_dlg.show()
     if my_dlg.OK:
         print(ok_data)
     else:
         print('user cancelled')
     participant_number = ok_data[0]
-    return participant_number
-    
+    there_is_a_parallel_port = ok_data[1]
+    return participant_number, there_is_a_parallel_port
+
 # raise thread priority
 core.rush(True)
 
 # garbage collection off
 gc.disable()
 
-participant_number = get_participant_number()
+participant_number, there_is_a_parallel_port = get_participant_number()
+if there_is_a_parallel_port:
+    parallel_port = parallel.ParallelPort(address=0x1FF8)  # eeg z440
+else:
+    parallel_port = None
+
 os.path.isdir("results") or os.mkdir("results")
 results_directory = os.path.join("results", str(participant_number).zfill(3))
 os.path.isdir(results_directory) or os.mkdir(results_directory)
@@ -130,31 +141,31 @@ for t in range(number_of_trials):
 
     do_fix_cross(win)
 
-    parallel_port.setData(0)
+    if there_is_a_parallel_port: parallel_port.setData(0)
 
     time.sleep(silence_before_beeps)
     
-    parallel_port.setData(0)
+    if there_is_a_parallel_port: parallel_port.setData(0)
     beep_number = 1
-    trigger_code_1 = (beep_number*10) + block_number
+    trigger_code_1 = (block_number*10) + beep_number
     beep1on = time.time()
-    parallel_port.setData(trigger_code_1)
+    if there_is_a_parallel_port: parallel_port.setData(trigger_code_1)
     beep.play()
     time.sleep(beep_duration)
     beep1off = time.time()
-    parallel_port.setData(0)
+    if there_is_a_parallel_port: parallel_port.setData(0)
 
     time.sleep(silence_between_beeps)
     
-    parallel_port.setData(0)
+    if there_is_a_parallel_port: parallel_port.setData(0)
     beep_number = 2
-    trigger_code_2 = (beep_number * 10) + block_number
+    trigger_code_2 = (block_number * 10) + beep_number
     beep2on = time.time()
-    parallel_port.setData(trigger_code_2)
+    if there_is_a_parallel_port: parallel_port.setData(trigger_code_2)
     beep.play()
     time.sleep(beep_duration)
     beep2off = time.time()
-    parallel_port.setData(0)
+    if there_is_a_parallel_port: parallel_port.setData(0)
 
     post_beep_silence_dur = random.uniform(min_duration, max_duration)
     t0 = core.getTime()

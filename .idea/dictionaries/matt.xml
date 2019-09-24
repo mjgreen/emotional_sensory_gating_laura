@@ -8,6 +8,7 @@
       <w>pygame</w>
       <w>pysoundcard</w>
       <w>sounddevice</w>
+      <w>viewpixx</w>
     </words>
   </dictionary>
 </component>
