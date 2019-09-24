@@ -95,7 +95,7 @@ def graceful_exit(s, win):
 def get_participant_number():
     my_dlg = gui.Dlg(title="gating")
     my_dlg.addField('Participant number:', 999)
-    my_dlg.addField('parallel port?', initial=False)
+    my_dlg.addField('parallel port?', initial=True)
     ok_data = my_dlg.show()
     if my_dlg.OK:
         print(ok_data)
@@ -177,7 +177,7 @@ for t in range(number_of_trials):
             core.quit()
 
     #trial_info = "{}\t{}\t{:3s}\t{}\t{:.3f}\t{}\t{:.3f}\t{}\t{}\t{}".format(participant_number, block_number, str(t+1).zfill(3), round(1000.0*silence_before_beeps,2), 1000.0*(beep1off-beep1on),2, round(1000.0*silence_between_beeps,2), 1000.0*(beep2off-beep2on), round(1000.0*post_beep_silence_dur,2), trigger_code_1, trigger_code_2)
-    trial_info = "{}\t{}".format(trigger_code_1, trigger_code_2)
+    trial_info = "{}\t{}\t {}\t{}".format(participant_number, block_number, str(t+1).zfill(3), trigger_code_1, trigger_code_2)
     print(trial_info)
     
     with open(results_path, "a") as f:
@@ -194,14 +194,16 @@ for t in range(number_of_trials):
         block_number = block_number + 1
         end_of_block_3(win)
         
-# stop sound server
-s.stop()
+
+print("end of run"
 # garbage collection on again
 gc.enable()
 # lower thread priority
 core.rush(False)
 # close window
 win.close()
+# stop sound server
+s.stop()
 # quit process
 core.quit()
  
