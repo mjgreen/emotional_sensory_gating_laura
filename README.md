@@ -1,13 +1,12 @@
 # Laura RV's emotional sensory gating experiments
 Task: listen to the sounds.
 
-### TODO
-- [x] participant screen to control when they start
-- [x] add parallel port and send triggers
-- [x] Per-trial trigger (11, 12); (21, 22); (31, 32), (41, 42). First number is which block (1,2,3,4); second number is which beep (1 or 2)
-- [x] Block Number in output
-- [x] Participant Number in output
-- [x] "Take a break" stimulus to replace fixation cross during breaks
-- [x] GUI for participant number, no input()
-- [ ] Black Box test trigger-to-sound-onset latency and jitter 
-- [ ] histograms for latency and jitter (matplotlib / pylab)
+### TODO (1 Nov 2019)
+- [ ] replace missing close parenthesis c. line 198
+- [ ] Instruction for block 2 should only say : Take a break. Press any key to start again
+- [ ] block 1. pp presses any key to start
+- [ ] block 2. pp presses any key to start
+- [ ] block 3. experimenter presses a key that brings up a screen telling the pp to press any key
+- [ ] block 4. pp presses any key to start
+- [ ] Have a practice block with a few beeps close together (no need to wait 6-10 minutes) to test the volume. Maybe 5 beeps 1 second apart, with the option to start that block again if needed?
+
