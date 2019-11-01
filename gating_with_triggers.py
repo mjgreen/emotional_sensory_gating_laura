@@ -195,7 +195,7 @@ for t in range(number_of_trials):
         end_of_block_3(win)
         
 
-print("end of run"
+print("end of run")
 # garbage collection on again
 gc.enable()
 # lower thread priority
