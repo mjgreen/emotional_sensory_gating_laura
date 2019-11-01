@@ -2,7 +2,7 @@
 Task: listen to the sounds.
 
 ### TODO (1 Nov 2019)
-- [ ] replace missing close parenthesis c. line 198
+- [x] replace missing close parenthesis c. line 198
 - [ ] Instruction for block 2 should only say : Take a break. Press any key to start again
 - [ ] block 1. pp presses any key to start
 - [ ] block 2. pp presses any key to start
