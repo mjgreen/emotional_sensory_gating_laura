@@ -1,5 +1,6 @@
 """
-use python 3 (? EEG lab's Psychopy3 seems to be python3, when laura phoned me from the lab, that's what the 'shell' tab said)
+python3 appears to work, but that's not to say you cant run it in python2
+EEG lab's Psychopy3 seems to be python3, when laura phoned me from the lab, that's what the 'shell' tab said
 """
 
 import time
