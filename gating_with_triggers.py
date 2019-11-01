@@ -1,5 +1,5 @@
 """
-use python 3 (?)
+use python 3 (? EEG lab's Psychopy3 seems to be python3, when laura phoned me from the lab, that's what the 'shell' tab said)
 """
 
 import time
