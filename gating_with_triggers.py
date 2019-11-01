@@ -1,5 +1,5 @@
 """
-use python 2
+use python 3 (?)
 """
 
 import time
@@ -38,7 +38,7 @@ def initial_instruction(win):
     win.flip()
     
 def end_of_block_1(win):
-    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Your task is to listen to beeps. You do not need to do anything apart from  keeping your eyes on the fixation cross. Please also relax as much as you can and do not move your head as we are recording what your brain is doing during this task.\n\nPress any key to start.")
+    instr = visual.TextStim(win=win, wrapWidth=1200, height=50, text="Take a break. Press any key to start again")
     instr.draw()
     win.flip()
     event.waitKeys()
