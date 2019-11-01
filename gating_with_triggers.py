@@ -112,7 +112,7 @@ core.rush(True)
 # garbage collection off
 gc.disable()
 
-participant_number, there_is_a_parallel_port = get_participant_number()
+participant_number, there_is_a_parallel_port = get_participant_number() # this calls the gui
 if there_is_a_parallel_port:
     parallel_port = parallel.ParallelPort(address=0x1FF8)  # eeg z440
 else:
@@ -130,6 +130,47 @@ win = make_window()
 beep_duration = 0.010  # Laura = 0.010 as of 23 May (was previously 0.040)
 beep = sound.Sound(2000.0, secs=beep_duration, sampleRate=44100, stereo=True)
 beep.setVolume(1.0)
+
+''' insert a bit before ethe trials start, a bit like a practice block but not really, 
+whose purpose is to test volume level and permit the experimenter to repeat until they are happy with the volume '''
+# Laura: "Have a practice block with a few beeps close together (no need to wait 6-10 minutes) to test the volume.
+#         Maybe 5 beeps 1 second apart, with the option to start that block again if needed?"
+
+volume_test_start = visual.TextStim(win=win, wrapWidth=1200, height=25,
+                                      text='Before the experiment starts we test the volume level. \n\n'
+                                           'When you dismiss this message, you will hear 5 beeps 1 second apart. '
+                                           'Then you will be asked whether you want to continue with the experiment: '
+                                           'If you are happy with the volume, press "y", or if you want to change the volume level and repeat the process, press "n". \n\n'
+                                           'Press any key now to dismiss the message and play the beeps')
+volume_test_during = visual.TextStim(win=win, wrapWidth=1200, height=25, text='The beeps are playing now: fiddle with the volume until you are happy with it')
+volume_test_after = visual.TextStim(win=win, wrapWidth=1200, height=25, text='Was the volume ok? Press y for yes or n for no')
+
+volume_ok = False
+while not volume_ok:
+    volume_test_start.draw()
+    win.flip()
+    event.waitKeys()
+
+    volume_test_during.draw()
+    win.flip()
+
+    for beeps in range(5):
+        beep.play()
+        time.sleep(beep_duration)
+        core.wait(1)
+
+    volume_test_after.draw()
+    win.flip()
+    k = event.waitKeys(keyList=['y','n'])
+    if k[0] == 'y':
+        volume_ok = True
+    if k[0] == 'n':
+        volume_ok = False
+
+assert volume_ok
+''' if we get here, it can only be because you pressed 'y' to say yes the volume was ok. If you had pressed 'n' to say no the volume was not ok, you'd still be in the while loop
+If something unexpected happened, you'd be thrown out by the assertion error'''
+
 number_of_trials = 160
 break_trials = [39, 79, 119]
 silence_before_beeps = 2.000
